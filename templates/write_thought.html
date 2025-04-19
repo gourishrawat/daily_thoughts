@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Write Thought{% endblock %}
+
+{% block content %}
+    <section class="write-thought">
+        <h2>Write Your Thought</h2>
+        
+        <div class="thought-form">
+            <form method="POST" action="{{ url_for('submit_thought') }}">
+                <div class="form-group">
+                    <label for="content">Share your thought for today:</label>
+                    <textarea id="content" name="content" rows="5" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Post Thought</button>
+                    <a href="{{ url_for('thoughts') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Thoughts - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">Daily Thoughts</h1>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <nav class="nav-menu" id="nav-menu">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('dashboard') }}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                        <a href="{{ url_for('write_thought') }}" class="nav-link highlight"><i class="fas fa-edit"></i> Write Thought</a>
+                        <a href="{{ url_for('thoughts') }}" class="nav-link"><i class="fas fa-list"></i> Today's Thoughts</a>
+                        <a href="{{ url_for('users') }}" class="nav-link"><i class="fas fa-users"></i> Users</a>
+                        <a href="#" onclick="confirmLogout()" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('index') }}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                        <a href="{{ url_for('login') }}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        <a href="{{ url_for('register') }}" class="nav-link"><i class="fas fa-user-plus"></i> Register</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2022 Daily Thoughts. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function confirmLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('nav-menu').classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link (for mobile)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                document.getElementById('mobile-menu').classList.remove('active');
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

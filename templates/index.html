@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Welcome to Daily Thoughts{% endblock %}
+
+{% block content %}
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Share Your <span class="highlight">Daily Thoughts</span></h1>
+                    <p class="lead">Join our community where you can express your daily reflections. Each thought lasts only 24 hours, making every day a fresh start.</p>
+                    <div class="cta-buttons">
+                        <a href="{{ url_for('register') }}" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Get Started
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-secondary">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="{{ url_for('static', filename='images/index1.jpg') }}" alt="People sharing thoughts" class="hero-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Our Members Say</h2>
+                <p class="subtitle">Join thousands of happy users</p>
+            </div>
+            
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Daily Thoughts has become my morning ritual. It's amazing how sharing one thought each day can bring such clarity."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{{ url_for('static', filename='images/user1.png') }}" alt="Gourish R." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Gourish R.</h4>
+                            <p>DT Fouder N Member since 2022</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"I love the simplicity and the 24-hour limit. It takes away the pressure of creating 'perfect' posts."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="{{ url_for('static', filename='images/user2.jpg') }}" alt="Dheeraj B." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Dheeraj B.</h4>
+                            <p>Member since 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <h2>Ready to Start Your Journey?</h2>
+                <p>Join our community today and begin sharing your daily reflections.</p>
+                <a href="{{ url_for('register') }}" class="btn btn-large">
+                    <i class="fas fa-rocket"></i> Create Your Account
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

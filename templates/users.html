@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Registered Users{% endblock %}
+
+{% block content %}
+    <section class="users">
+        <h2>Registered Users</h2>
+        
+        <div class="users-list">
+            {% if users %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No users registered yet.</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

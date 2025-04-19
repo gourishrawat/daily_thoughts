@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Today's Thoughts{% endblock %}
+
+{% block content %}
+    <section class="thoughts">
+        <h2>Today's Thoughts</h2>
+        
+        <div class="thoughts-list">
+            {% if thoughts %}
+                {% for thought in thoughts %}
+                    <div class="thought">
+                        <div class="thought-header">
+                            <span class="author">{{ thought.author.username }}</span>
+                            <!-- Store datetime in data attribute -->
+                            <span class="time" data-time="{{ thought.created_at.isoformat() }}"></span>
+                            
+                            {% if thought.user_id == current_user.id %}
+                                <button onclick="confirmDelete({{ thought.id }})" class="btn-delete">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                                <form id="delete-form-{{ thought.id }}" method="POST" action="{{ url_for('delete_thought', thought_id=thought.id) }}" style="display: none;"></form>
+                            {% endif %}
+                        </div>
+                        <div class="thought-content">
+                            {{ thought.content }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-thoughts">No thoughts shared yet today. Be the first!</p>
+            {% endif %}
+        </div>
+        <!-- Add this new section for the Write Thought button -->
+        <div class="write-thought-btn-container">
+            <a href="{{ url_for('write_thought') }}" class="btn btn-primary">
+                <i class="fas fa-pen"></i> Write a Thought
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Time display conversion
+        document.querySelectorAll('.time').forEach(span => {
+            const isoTime = span.dataset.time;
+    
+            // Treat time as UTC to avoid local misinterpretation
+            const dateObj = new Date(isoTime + 'Z');  // 'Z' = UTC timezone hint
+    
+            // Convert to device's local time
+            const localTime = dateObj.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+    
+            span.textContent = localTime;
+        });
+
+        // Delete confirmation function
+        function confirmDelete(thoughtId) {
+            if (confirm("Are you sure you want to delete this thought?")) {
+                document.getElementById('delete-form-' + thoughtId).submit();
+            }
+        }
+    </script>
+{% endblock %}
